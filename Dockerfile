@@ -7,7 +7,7 @@ RUN usermod -u 999 www-data && \
 
 # Utilities
 RUN apt-get update && \
-    apt-get -y install apt-transport-https ca-certificates git curl --no-install-recommends && \
+    apt-get -y install apt-transport-https ca-certificates git curl wget unzip --no-install-recommends && \
     rm -r /var/lib/apt/lists/*
 
 # MySQL PHP extension
@@ -60,7 +60,7 @@ COPY config/supervisor/kill_supervisor.py /usr/bin/
 # NodeJS
 RUN apt-get update && \
     apt-get install -y gnupg2 && \
-    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get install -y nodejs --no-install-recommends
 
 # Parsoid
@@ -96,6 +96,21 @@ COPY config/mediawiki/* /var/www/mediawiki/
 RUN curl -s -o /tmp/extension-visualeditor.tar.gz https://extdist.wmflabs.org/dist/extensions/VisualEditor-REL${MEDIAWIKI_VERSION_MAJOR}_${MEDIAWIKI_VERSION_MINOR}-`curl -s https://extdist.wmflabs.org/dist/extensions/ | grep -o -P "(?<=VisualEditor-REL${MEDIAWIKI_VERSION_MAJOR}_${MEDIAWIKI_VERSION_MINOR}-)[0-9a-z]{7}(?=.tar.gz)" | head -1`.tar.gz && \
     tar -xzf /tmp/extension-visualeditor.tar.gz -C /var/www/mediawiki/extensions && \
     rm /tmp/extension-visualeditor.tar.gz
+
+# TemplateStyles extension
+RUN curl -s -o /tmp/extension-TemplateStyles.tar.gz https://extdist.wmflabs.org/dist/extensions/TemplateStyles-REL${MEDIAWIKI_VERSION_MAJOR}_${MEDIAWIKI_VERSION_MINOR}-`curl -s https://extdist.wmflabs.org/dist/extensions/ | grep -o -P "(?<=TemplateStyles-REL${MEDIAWIKI_VERSION_MAJOR}_${MEDIAWIKI_VERSION_MINOR}-)[0-9a-z]{7}(?=.tar.gz)" | head -1`.tar.gz && \
+    tar -xzf /tmp/extension-TemplateStyles.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-TemplateStyles.tar.gz
+
+# SyntaxHighlight_GeSHi extension
+RUN curl -s -o /tmp/extension-SyntaxHighlight_GeSHi.tar.gz https://extdist.wmflabs.org/dist/extensions/SyntaxHighlight_GeSHi-REL${MEDIAWIKI_VERSION_MAJOR}_${MEDIAWIKI_VERSION_MINOR}-`curl -s https://extdist.wmflabs.org/dist/extensions/ | grep -o -P "(?<=SyntaxHighlight_GeSHi-REL${MEDIAWIKI_VERSION_MAJOR}_${MEDIAWIKI_VERSION_MINOR}-)[0-9a-z]{7}(?=.tar.gz)" | head -1`.tar.gz && \
+    tar -xzf /tmp/extension-SyntaxHighlight_GeSHi.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-SyntaxHighlight_GeSHi.tar.gz
+
+# CSS extension https://www.mediawiki.org/wiki/Extension:CSS 
+RUN curl -s -o /tmp/extension-CSS.tar.gz https://extdist.wmflabs.org/dist/extensions/CSS-REL1_34-0f37609.tar.gz && \
+    tar -xzf /tmp/extension-CSS.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-CSS.tar.gz
 
 # User merge and delete extension
 RUN curl -s -o /tmp/extension-usermerge.tar.gz https://extdist.wmflabs.org/dist/extensions/UserMerge-REL${MEDIAWIKI_VERSION_MAJOR}_${MEDIAWIKI_VERSION_MINOR}-`curl -s https://extdist.wmflabs.org/dist/extensions/ | grep -o -P "(?<=UserMerge-REL${MEDIAWIKI_VERSION_MAJOR}_${MEDIAWIKI_VERSION_MINOR}-)[0-9a-z]{7}(?=.tar.gz)" | head -1`.tar.gz && \

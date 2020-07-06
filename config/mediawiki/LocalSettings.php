@@ -166,6 +166,10 @@ if (getenv('MEDIAWIKI_DEFAULT_SKIN') != '') {
 wfLoadSkin( 'MonoBook' );
 wfLoadSkin( 'Vector' );
 wfLoadSkin( 'Timeless' );
+wfLoadExtension( 'CSS' );
+wfLoadExtension( 'TemplateStyles' );
+wfLoadExtension( 'SyntaxHighlight_GeSHi' );
+
 
 # Debug
 if (getenv('MEDIAWIKI_DEBUG') == '1') {
