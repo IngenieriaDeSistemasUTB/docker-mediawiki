@@ -6,22 +6,22 @@ services:
     build: .
     container_name: mediawiki_wiki
     environment:
-      MEDIAWIKI_SERVER: http://localhost:8080
-      MEDIAWIKI_SITENAME: MyWiki
+      MEDIAWIKI_SERVER: ${DOCU_SERVER}
+      MEDIAWIKI_SITENAME: ${DOCU_SITENAME}
       MEDIAWIKI_LANGUAGE_CODE: en
       MEDIAWIKI_SECRET_KEY: ${SECRET_KEY}
       #MEDIAWIKI_META_NAMESPACE: MyNamespace
       MEDIAWIKI_DB_TYPE: mysql
-      MEDIAWIKI_DB_HOST: mediawiki_mysql
+      MEDIAWIKI_DB_HOST: ${DB_HOST}
       MEDIAWIKI_DB_PORT: 3306
-      MEDIAWIKI_DB_NAME: wikidb
-      MEDIAWIKI_DB_USER: wikiuser
+      MEDIAWIKI_DB_NAME: ${DB_NAME}
+      MEDIAWIKI_DB_USER: ${DB_USER}
       MEDIAWIKI_DB_PREFIX: mywiki_
       MEDIAWIKI_DB_TABLE_OPTIONS: ENGINE=InnoDB, DEFAULT CHARSET=binary
       MEDIAWIKI_DB_PASSWORD: ${DB_PASSWORD}
       MEDIAWIKI_ENABLE_UPLOADS: 1
       MEDIAWIKI_MAX_UPLOAD_SIZE: 10M
-      MEDIAWIKI_DEFAULT_SKIN: vector
+      MEDIAWIKI_DEFAULT_SKIN: ${SKIN}
       MEDIAWIKI_SMTP: 1
       MEDIAWIKI_SMTP_SSL_VERIFY_PEER: 0
       MEDIAWIKI_SMTP_HOST: ${SMTP_HOST}
@@ -52,8 +52,8 @@ services:
     image: mysql:5.7
     container_name: mediawiki_mysql
     environment:
-      MYSQL_DATABASE: wikidb
-      MYSQL_USER: wikiuser
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
