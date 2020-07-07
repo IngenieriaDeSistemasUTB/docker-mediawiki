@@ -8,7 +8,7 @@ services:
     environment:
       MEDIAWIKI_SERVER: ${DOCU_SERVER_URL}
       MEDIAWIKI_SITENAME: ${DOCU_SITENAME}
-      MEDIAWIKI_LANGUAGE_CODE: en
+      MEDIAWIKI_LANGUAGE_CODE: ${DOCU_LANGUAGE_CODE}
       MEDIAWIKI_SECRET_KEY: ${SECRET_KEY}
       #MEDIAWIKI_META_NAMESPACE: MyNamespace
       MEDIAWIKI_DB_TYPE: mysql
@@ -42,24 +42,7 @@ services:
       PARSOID_WORKERS: 1
     ports:
     - 127.0.0.1:8080:8080
-    depends_on:
-    - mediawiki_mysql
     volumes:
-    - mediawiki_images:/images
-    - ./testdata/logo.png:/var/www/mediawiki/resources/assets/wiki.png:ro
-    - ./testdata/ExtraLocalSettings.php:/var/www/mediawiki/ExtraLocalSettings.php:ro
-  mediawiki_mysql:
-    image: mysql:5.7
-    container_name: mediawiki_mysql
-    environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-    ports:
-    - 127.0.0.1:3306:3306
-    volumes:
-    - mediawiki_mysql:/var/lib/mysql
-volumes:
-  mediawiki_images:
-  mediawiki_mysql:
+    - ./data/images:/images
+    - ./data/logo.png:/var/www/mediawiki/resources/assets/wiki.png:ro
+    - ./data/ExtraLocalSettings.php:/var/www/mediawiki/ExtraLocalSettings.php:ro
